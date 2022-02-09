@@ -1,16 +1,25 @@
 import React, {ChangeEvent} from 'react';
 
 type PropsType = {
-    value: string
-    onChange: (e: ChangeEvent) => void
+    value: number
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void
+    inputName: string
 }
 
 
 
 const Input = (props: PropsType) => {
+
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+        props.onChange(e)
+    }
+
     return (
         <div>
-            i
+            {props.inputName}
+            <input type="number"
+                   value={props.value}
+                   onChange={onChange}/>
         </div>
     )
 };

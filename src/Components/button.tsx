@@ -1,9 +1,19 @@
 import React from 'react';
 
-const Button = () => {
+type PropsType = {
+    buttonName: string
+    onClick: () => void
+}
+
+const Button = (props: PropsType) => {
+
+    const onClick = () => {
+        props.onClick()
+    }
+
     return (
         <div>
-            button
+            <button onClick={onClick}>{props.buttonName}</button>
         </div>
     );
 };
