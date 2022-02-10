@@ -3,6 +3,7 @@ import React from 'react';
 type PropsType = {
     buttonName: string
     onClick: () => void
+    style: string
 }
 
 const Button = (props: PropsType) => {
@@ -12,9 +13,9 @@ const Button = (props: PropsType) => {
     }
 
     return (
-        <div>
-            <button onClick={onClick}>{props.buttonName}</button>
-        </div>
+        <>
+            <button onClick={onClick} className={props.style}>{props.buttonName}</button>
+        </>
     );
 };
 

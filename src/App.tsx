@@ -4,9 +4,23 @@ import Input from "./Components/input";
 import Button from "./Components/button";
 
 function App() {
+
     let [start, setStartValue] = useState(0)
     let [max, setMaxValue] = useState(0)
     let [count, setCount] = useState(0)
+
+    useEffect(() => {
+        setCount(Number(localStorage.getItem('start')))
+    }, [])
+
+    useEffect(() => {
+        setStartValue(Number(localStorage.getItem('start')))
+    }, [])
+
+    useEffect(() => {
+        setMaxValue(Number(localStorage.getItem('max')))
+    }, [])
+
 
     const onChangeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
         setStartValue(Number(e.currentTarget.value))
@@ -21,13 +35,17 @@ function App() {
     }
 
     const decrement = () => {
-        setCount(Number(localStorage.getItem('max')))
+        setCount(Number(localStorage.getItem('start')))
     }
 
     const set = () => {
         localStorage.setItem('start', JSON.stringify(start))
         localStorage.setItem('max', JSON.stringify(max))
+        decrement()
     }
+
+    const disableButtonDecr = count === start ? 'disable' : ''
+    const disableButtonInc = count === max ? 'disable' : ''
 
     return (
         <div className="App">
@@ -39,7 +57,9 @@ function App() {
                        value={max}
                        inputName={'max value'}/>
                 <div className={'buttons-container'}>
-                    <Button buttonName={'set'} onClick={set}/>
+                    <Button buttonName={'set'}
+                            onClick={set}
+                            style={''}/>
                 </div>
             </div>
             <div>
@@ -47,8 +67,12 @@ function App() {
                        value={count}
                        inputName={''}/>
                 <div className={'buttons-container'}>
-                    <Button buttonName={'inc'} onClick={increment}/>
-                    <Button buttonName={'decr'} onClick={decrement}/>
+                    <Button buttonName={'inc'}
+                            onClick={increment}
+                            style={disableButtonInc}/>
+                    <Button buttonName={'decr'}
+                            onClick={decrement}
+                            style={disableButtonDecr}/>
                 </div>
             </div>
         </div>
