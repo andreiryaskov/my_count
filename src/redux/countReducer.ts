@@ -1,14 +1,14 @@
 import {StateType} from "../App";
 
 
-export const countReducer = (state: StateType[], action: GeneralType) => {
+export const countReducer = (state: number, action: GeneralType) => {
     switch (action.type) {
         case 'INCREMENT': {
-            return (
-                action.payload.count < action.payload.maxValue
-                    ? action.payload.count + 1
-                    : action.payload.count
-            )
+            let newState = state
+            newState = action.payload.count < action.payload.maxValue
+                ? action.payload.count + 1
+                : action.payload.count
+            return newState
 
             //setCount(count < maxValue ? count + 1 : count)
         }
