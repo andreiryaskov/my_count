@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useReducer, useState} from 'react';
 import './App.css';
 import Input from "./Components/input";
 import Button from "./Components/button";
-import {countReducer, decrementCountAC, incrementCountAC} from "./redux/countReducer";
+import {countReducer, decrementCountAC, incrementCountAC, rerenderCountAfterReloadAC} from "./redux/countReducer";
 
 export type StateType = {
     startValue: number
@@ -17,7 +17,7 @@ function App() {
     let [count, countDispatch] = useReducer<any>(countReducer,0)
 
     useEffect(() => {
-        countDispatch(Number(localStorage.getItem('start')))
+        countDispatch(rerenderCountAfterReloadAC())
     }, [])
 
     useEffect(() => {

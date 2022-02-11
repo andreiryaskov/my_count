@@ -1,6 +1,3 @@
-import {StateType} from "../App";
-
-
 export const countReducer = (state: number, action: GeneralType) => {
     switch (action.type) {
         case 'INCREMENT': {
@@ -9,10 +6,11 @@ export const countReducer = (state: number, action: GeneralType) => {
                 ? action.payload.count + 1
                 : action.payload.count
             return newState
-
-            //setCount(count < maxValue ? count + 1 : count)
         }
         case 'DECREMENT': {
+            return Number(localStorage.getItem('start'))
+        }
+        case 'RERENDER-USE-EFFECT': {
             return Number(localStorage.getItem('start'))
         }
         default:
@@ -20,7 +18,7 @@ export const countReducer = (state: number, action: GeneralType) => {
     }
 }
 
-type GeneralType = incrementCountAC | decrementCountAC
+type GeneralType = incrementCountAC | decrementCountAC | rerenderCountAfterReload
 
 type incrementCountAC = ReturnType<typeof incrementCountAC>
 
@@ -39,5 +37,13 @@ type decrementCountAC = ReturnType<typeof decrementCountAC>
 export const decrementCountAC = () => {
     return {
         type: 'DECREMENT'
+    } as const
+}
+
+type rerenderCountAfterReload = ReturnType<typeof rerenderCountAfterReloadAC>
+
+export const rerenderCountAfterReloadAC = () => {
+    return {
+        type: 'RERENDER-USE-EFFECT'
     } as const
 }
