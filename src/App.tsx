@@ -1,12 +1,18 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useReducer, useState} from 'react';
 import './App.css';
 import Input from "./Components/input";
 import Button from "./Components/button";
+import {countReducer} from "./redux/countReducer";
+
+export type SettingsType = {
+    startValue: number
+    maxValue: number
+}
 
 function App() {
 
-    let [start, setStartValue] = useState(0)
-    let [max, setMaxValue] = useState(0)
+    let [startValue, setStartValue] = useState(0)
+    let [maxValue, setMaxValue] = useState(0)
     let [count, setCount] = useState(0)
 
     useEffect(() => {
@@ -31,7 +37,7 @@ function App() {
     }
 
     const increment = () => {
-        setCount(count < max ? count + 1 : count)
+        setCount(count < maxValue ? count + 1 : count)
     }
 
     const decrement = () => {
@@ -39,39 +45,39 @@ function App() {
     }
 
     const set = () => {
-        localStorage.setItem('start', JSON.stringify(start))
-        localStorage.setItem('max', JSON.stringify(max))
+        localStorage.setItem('start', JSON.stringify(startValue))
+        localStorage.setItem('max', JSON.stringify(maxValue))
         decrement()
     }
 
-    const disableButtonDecr = count === start ? 'disable' : ''
-    const disableButtonInc = count === max ? 'disable' : ''
+    const disableButtonDecr = count === startValue ? 'disable' : ''
+    const disableButtonInc = count === maxValue ? 'disable' : ''
 
     return (
         <div className="App">
             <div className={'settings-container'}>
-                <Input onChange={onChangeStartValue}
-                       value={start}
+                <Input onChangeInput={onChangeStartValue}
+                       value={startValue}
                        inputName={'start value'}/>
-                <Input onChange={onChangeMaxValue}
-                       value={max}
+                <Input onChangeInput={onChangeMaxValue}
+                       value={maxValue}
                        inputName={'max value'}/>
                 <div className={'buttons-container'}>
                     <Button buttonName={'set'}
-                            onClick={set}
+                            onClickButton={set}
                             style={''}/>
                 </div>
             </div>
             <div>
-                <Input onChange={onChangeMaxValue}
+                <Input onChangeInput={onChangeMaxValue}
                        value={count}
                        inputName={''}/>
                 <div className={'buttons-container'}>
                     <Button buttonName={'inc'}
-                            onClick={increment}
+                            onClickButton={increment}
                             style={disableButtonInc}/>
                     <Button buttonName={'decr'}
-                            onClick={decrement}
+                            onClickButton={decrement}
                             style={disableButtonDecr}/>
                 </div>
             </div>
