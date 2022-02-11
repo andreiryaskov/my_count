@@ -1,13 +1,16 @@
-import {SettingsType} from "../App";
+import {StateType} from "../App";
 
 
-export const countReducer = (state: SettingsType[], action: GeneralType) => {
+export const countReducer = (state: StateType[], action: GeneralType) => {
     switch (action.type) {
         case 'INCREMENT': {
-            return [...state,
+            return (
                 action.payload.count < action.payload.maxValue
                     ? action.payload.count + 1
-                    : action.payload.count]
+                    : action.payload.count
+            )
+
+            //setCount(count < maxValue ? count + 1 : count)
         }
         case 'DECREMENT': {
             return Number(localStorage.getItem('start'))

@@ -2,21 +2,22 @@ import React, {ChangeEvent, useEffect, useReducer, useState} from 'react';
 import './App.css';
 import Input from "./Components/input";
 import Button from "./Components/button";
-import {countReducer} from "./redux/countReducer";
+import {countReducer, decrementCountAC, incrementCountAC} from "./redux/countReducer";
 
-export type SettingsType = {
+export type StateType = {
     startValue: number
     maxValue: number
+    count: number
 }
 
 function App() {
 
     let [startValue, setStartValue] = useState(0)
     let [maxValue, setMaxValue] = useState(0)
-    let [count, setCount] = useState(0)
+    let [count, countDispatch] = useReducer<any>(countReducer,0)
 
     useEffect(() => {
-        setCount(Number(localStorage.getItem('start')))
+        countDispatch(Number(localStorage.getItem('start')))
     }, [])
 
     useEffect(() => {
@@ -37,11 +38,11 @@ function App() {
     }
 
     const increment = () => {
-        setCount(count < maxValue ? count + 1 : count)
+        countDispatch(incrementCountAC(count, maxValue))
     }
 
     const decrement = () => {
-        setCount(Number(localStorage.getItem('start')))
+        countDispatch(decrementCountAC())
     }
 
     const set = () => {
