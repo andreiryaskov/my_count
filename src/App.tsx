@@ -1,8 +1,14 @@
-import React, {ChangeEvent, useEffect, useReducer, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import './App.css';
 import Input from "./Components/input";
 import Button from "./Components/button";
-import {countReducer, decrementCountAC, incrementCountAC, rerenderCountAfterReloadAC} from "./redux/countReducer";
+import {
+    decrementCountAC,
+    incrementCountAC, onChangeMaxValueAC, onChangeStartValueAC,
+    setValueFromLocalStorageTC, setValueLocalStorageTC, setValueToLocalStorageTC
+} from "./bll/count-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "./bll/store";
 
 export type StateType = {
     startValue: number
@@ -12,47 +18,41 @@ export type StateType = {
 
 function App() {
 
-    let [startValue, setStartValue] = useState(0)
-    let [maxValue, setMaxValue] = useState(0)
-    let [count, countDispatch] = useReducer<any>(countReducer,0)
+    const value = useSelector<AppStateType, number>(state => state.counter.value)
+    const startValue = useSelector<AppStateType, number>(state => state.counter.startValue)
+    const maxValue = useSelector<AppStateType, number>(state => state.counter.maxValue)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        countDispatch(rerenderCountAfterReloadAC())
+        dispatch(setValueFromLocalStorageTC())
     }, [])
-
-    useEffect(() => {
-        setStartValue(Number(localStorage.getItem('start')))
-    }, [])
-
-    useEffect(() => {
-        setMaxValue(Number(localStorage.getItem('max')))
-    }, [])
-
-
-    const onChangeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setStartValue(Number(e.currentTarget.value))
-    }
-
-    const onChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setMaxValue(Number(e.currentTarget.value))
-    }
 
     const increment = () => {
-        countDispatch(incrementCountAC(count, maxValue))
+        dispatch(incrementCountAC(maxValue, startValue))
+        dispatch(setValueToLocalStorageTC())
     }
 
     const decrement = () => {
-        countDispatch(decrementCountAC())
+        dispatch(decrementCountAC(startValue))
+        dispatch(setValueToLocalStorageTC())
+    }
+
+    const onChangeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
+        let startValueFromInput = Number(e.currentTarget.value)
+        dispatch(onChangeStartValueAC(startValueFromInput))
+    }
+
+    const onChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
+        let maxValueFromInput = Number(e.currentTarget.value)
+        dispatch(onChangeMaxValueAC(maxValueFromInput))
     }
 
     const set = () => {
-        localStorage.setItem('start', JSON.stringify(startValue))
-        localStorage.setItem('max', JSON.stringify(maxValue))
-        decrement()
+        dispatch(setValueLocalStorageTC(startValue, maxValue))
     }
 
-    const disableButtonDecr = count === startValue ? 'disable' : ''
-    const disableButtonInc = count === maxValue ? 'disable' : ''
+    const disableButtonDecr = value === startValue ? 'disable' : ''
+    const disableButtonInc = value === maxValue ? 'disable' : ''
 
     return (
         <div className="App">
@@ -71,7 +71,7 @@ function App() {
             </div>
             <div>
                 <Input onChangeInput={onChangeMaxValue}
-                       value={count}
+                       value={value}
                        inputName={''}/>
                 <div className={'buttons-container'}>
                     <Button buttonName={'inc'}

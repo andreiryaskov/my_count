@@ -11,7 +11,7 @@ type PropsType = {
 const Input = ({value, onChangeInput, inputName,...props}: PropsType) => {
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        onChange(e)
+        onChangeInput(e)
     }
 
     return (
