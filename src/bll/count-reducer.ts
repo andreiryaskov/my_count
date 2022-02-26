@@ -1,7 +1,3 @@
-import {Dispatch} from "redux";
-import {ChangeEvent} from "react";
-import {AppStateType} from "./store";
-
 const initialState = {
     value: 0,
     startValue: 0,
@@ -53,7 +49,6 @@ export const counterReducer = (state: InitialStateType = initialState, action: A
 }
 
 
-
 export const incrementCountAC = (maxValue: number, startValue: number) => {
     return {
         type: 'INC-COUNTER',
@@ -92,26 +87,26 @@ export const onChangeMaxValueAC = (maxValueFromInput: number) => {
 }
 
 
- //THUNK
-export const setValueLocalStorageTC = (startValue: number, maxValue: number) => (dispatch: Dispatch) => {
-    localStorage.setItem('start', JSON.stringify(startValue))
-    localStorage.setItem('max', JSON.stringify(maxValue))
-    dispatch(decrementCountAC(startValue))
-}
-
-export const setValueToLocalStorageTC = () => (dispatch: Dispatch, getState: () => AppStateType) => {
-    let currentValue = getState().counter.value
-    localStorage.setItem('value', JSON.stringify(currentValue))
-}
-
-export const setValueFromLocalStorageTC = () => (dispatch: Dispatch) => {
-    let startValueAsString = localStorage.getItem('start')
-    let maxValueAsString = localStorage.getItem('max')
-    if (startValueAsString && maxValueAsString) {
-        let newStartValue = JSON.parse(startValueAsString)
-        let newMaxValue = JSON.parse(maxValueAsString)
-        dispatch(decrementCountAC(newStartValue))
-        dispatch(onChangeStartValueAC(newStartValue))
-        dispatch(onChangeMaxValueAC(newMaxValue))
-    }
-}
+//THUNK
+// export const setValueLocalStorageTC = (startValue: number, maxValue: number) => (dispatch: Dispatch) => {
+//     localStorage.setItem('start', JSON.stringify(startValue))
+//     localStorage.setItem('max', JSON.stringify(maxValue))
+//     dispatch(decrementCountAC(startValue))
+// }
+//
+// export const setValueToLocalStorageTC = () => (dispatch: Dispatch, getState: () => AppStateType) => {
+//     let currentValue = getState().counter.value
+//     localStorage.setItem('value', JSON.stringify(currentValue))
+// }
+//
+// export const setValueFromLocalStorageTC = () => (dispatch: Dispatch) => {
+//     let startValueAsString = localStorage.getItem('start')
+//     let maxValueAsString = localStorage.getItem('max')
+//     if (startValueAsString && maxValueAsString) {
+//         let newStartValue = JSON.parse(startValueAsString)
+//         let newMaxValue = JSON.parse(maxValueAsString)
+//         dispatch(decrementCountAC(newStartValue))
+//         dispatch(onChangeStartValueAC(newStartValue))
+//         dispatch(onChangeMaxValueAC(newMaxValue))
+//     }
+// }

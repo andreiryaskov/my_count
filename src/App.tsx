@@ -1,20 +1,10 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import './App.css';
 import Input from "./Components/input";
 import Button from "./Components/button";
-import {
-    decrementCountAC,
-    incrementCountAC, onChangeMaxValueAC, onChangeStartValueAC,
-    setValueFromLocalStorageTC, setValueLocalStorageTC, setValueToLocalStorageTC
-} from "./bll/count-reducer";
+import {decrementCountAC, incrementCountAC, onChangeMaxValueAC, onChangeStartValueAC,} from "./bll/count-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "./bll/store";
-
-export type StateType = {
-    startValue: number
-    maxValue: number
-    count: number
-}
 
 function App() {
 
@@ -23,18 +13,13 @@ function App() {
     const maxValue = useSelector<AppStateType, number>(state => state.counter.maxValue)
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(setValueFromLocalStorageTC())
-    }, [])
 
     const increment = () => {
         dispatch(incrementCountAC(maxValue, startValue))
-        dispatch(setValueToLocalStorageTC())
     }
 
     const decrement = () => {
         dispatch(decrementCountAC(startValue))
-        dispatch(setValueToLocalStorageTC())
     }
 
     const onChangeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +33,7 @@ function App() {
     }
 
     const set = () => {
-        dispatch(setValueLocalStorageTC(startValue, maxValue))
+        dispatch(decrementCountAC(startValue))
     }
 
     const disableButtonDecr = value === startValue ? 'disable' : ''
