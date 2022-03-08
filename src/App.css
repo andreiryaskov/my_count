@@ -1,14 +1,23 @@
 .App {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: flex-end;
 }
 
 .buttons-container {
   display: flex;
   justify-content: center;
+  margin: 10px;
+}
+
+.buttons-container button {
+  margin: 10px;
 }
 
 .disable {
   opacity: 0.5;
+}
+
+.container {
+  padding: 10px;
 }

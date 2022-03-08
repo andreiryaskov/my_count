@@ -1,12 +1,17 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import Button from '@mui/material/Button';
 
 type PropsType = {
     buttonName: string
     onClickButton: () => void
     style: string
+    name: string
 }
 
-const Button = ({buttonName, onClickButton, style, ...props}: PropsType) => {
+const ButtonComponent = ({buttonName, onClickButton, style, name, ...props}: PropsType) => {
+
+
 
     const onClick = () => {
         onClickButton()
@@ -14,9 +19,13 @@ const Button = ({buttonName, onClickButton, style, ...props}: PropsType) => {
 
     return (
         <>
-            <button onClick={onClick} className={style}>{buttonName}</button>
+            <Button variant="contained"
+                    onClick={onClick}
+                    className={style}>
+                {name}
+            </Button>
         </>
     );
 };
 
-export default Button;
+export default ButtonComponent;

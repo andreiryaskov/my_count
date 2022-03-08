@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import './App.css';
 import Input from "./Components/input";
-import Button from "./Components/button";
+import ButtonComponent from "./Components/button";
 import {decrementCountAC, incrementCountAC, onChangeMaxValueAC, onChangeStartValueAC,} from "./bll/count-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "./bll/store";
@@ -41,30 +41,36 @@ function App() {
 
     return (
         <div className="App">
-            <div className={'settings-container'}>
+            <div className={'container'}>
                 <Input onChangeInput={onChangeStartValue}
                        value={startValue}
-                       inputName={'start value'}/>
+                       inputName={'start value'}
+                       label={'start value'}/>
                 <Input onChangeInput={onChangeMaxValue}
                        value={maxValue}
-                       inputName={'max value'}/>
+                       inputName={'max value'}
+                       label={'max value'}/>
                 <div className={'buttons-container'}>
-                    <Button buttonName={'set'}
-                            onClickButton={set}
-                            style={''}/>
+                    <ButtonComponent buttonName={'set'}
+                                     onClickButton={set}
+                                     style={''}
+                                     name={'set'}/>
                 </div>
             </div>
-            <div>
+            <div className={'container'}>
                 <Input onChangeInput={onChangeMaxValue}
                        value={value}
-                       inputName={''}/>
+                       inputName={''}
+                       label={'count'}/>
                 <div className={'buttons-container'}>
-                    <Button buttonName={'inc'}
-                            onClickButton={increment}
-                            style={disableButtonInc}/>
-                    <Button buttonName={'decr'}
-                            onClickButton={decrement}
-                            style={disableButtonDecr}/>
+                    <ButtonComponent buttonName={'inc'}
+                                     onClickButton={increment}
+                                     style={disableButtonInc}
+                                     name={'inc'}/>
+                    <ButtonComponent buttonName={'decr'}
+                                     onClickButton={decrement}
+                                     style={disableButtonDecr}
+                                     name={'decr'}/>
                 </div>
             </div>
         </div>
